@@ -115,3 +115,20 @@ def test_filter_temperature_type():
     ]
 
     assert isinstance(filter_by_temperature(measurements, 10, 25), list) == True
+
+
+def test_hottest_measurement_ocourrance():
+    measurements = [
+        ("Köln", 600, 25.0),
+        ("Düsseldorf", 600, 25.0),
+        ("Bonn", 900, 25.0),
+    ]
+
+    assert hottest_measurement(measurements) == ("Köln", 600, 25.0)
+    assert hottest_measurement(measurements) == ("Köln", 600, 25.0)
+
+
+def test_hottest_measurement_blank():
+    measurements = []
+    with pytest.raises(ValueError, match="No measurements available."):
+        hottest_measurement(measurements)
