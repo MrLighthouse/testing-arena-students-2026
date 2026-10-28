@@ -63,6 +63,10 @@ def test_parse_time_special_time():
         parse_time("23::05")
     with pytest.raises(ValueError, match="Minute must be between 0 and 59"):
         parse_time("12:80")
+    with pytest.raises(ValueError, match="Hour and minute must be numeric."):
+        parse_time("-23:12")
+    with pytest.raises(ValueError, match="Hour and minute must be numeric."):
+        parse_time("23:-12")
 
 
 def test_parse_measurement_separator():
@@ -115,6 +119,12 @@ def test_filter_temperature_type():
     ]
 
     assert isinstance(filter_by_temperature(measurements, 10, 25), list) == True
+
+
+def test_average_temperature_case_sensitivity():
+    with pytest.raises(ValueError, match="No measurements found for city."):
+        average_temperature([("Köln", 600, 25.0)], "köln")
+
 
 
 def test_hottest_measurement_ocourrance():
