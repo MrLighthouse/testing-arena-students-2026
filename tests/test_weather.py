@@ -126,6 +126,14 @@ def test_average_temperature_case_sensitivity():
         average_temperature([("Köln", 600, 25.0)], "köln")
 
 
+def test_averagde_temperature_mean():
+    measurements = [
+        ("Köln", 600, 10.0),
+        ("Berlin", 720, 25.0),
+        ("Köln", 900, 20.0),
+    ]
+    assert average_temperature(measurements, "Köln") == (10  + 20) / 2
+
 
 def test_hottest_measurement_ocourrance():
     measurements = [
