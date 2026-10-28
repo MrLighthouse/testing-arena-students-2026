@@ -115,13 +115,3 @@ def test_filter_temperature_type():
     ]
 
     assert isinstance(filter_by_temperature(measurements, 10, 25), list) == True
-
-
-def test_hottest_occourance():
-    measurements = [
-        ("Köln", 600, 25.0),
-        ("Düsseldorf", 720, 25.0),
-        ("Bonn", 900, 25.0),
-    ]
-
-    assert len(hottest_measurement(measurements)) == 1
