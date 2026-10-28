@@ -67,6 +67,10 @@ def test_parse_time_special_time():
         parse_time("-23:12")
     with pytest.raises(ValueError, match="Hour and minute must be numeric."):
         parse_time("23:-12")
+    with pytest.raises(ValueError, match="Hour must be between 0 and 23."):
+        parse_time("24:45")
+    with pytest.raises(ValueError, match="Minute must be between 0 and 59"):
+        parse_time("23:60")
 
 
 def test_parse_measurement_separator():
@@ -135,7 +139,7 @@ def test_averagde_temperature_mean():
     assert average_temperature(measurements, "Köln") == (10  + 20) / 2
 
 
-def test_hottest_measurement_ocourrance():
+def test_hottest_measurement_occurrence():
     measurements = [
         ("Köln", 600, 25.0),
         ("Düsseldorf", 600, 25.0),
@@ -150,3 +154,13 @@ def test_hottest_measurement_blank():
     measurements = []
     with pytest.raises(ValueError, match="No measurements available."):
         hottest_measurement(measurements)
+
+
+def test_hottest_measurement_latest():
+    measurements = [
+        ("Köln", 600, 25.0),
+        ("Düsseldorf", 500, 25.0),
+        ("Bonn", 900, 25.0),
+    ]
+
+    assert hottest_measurement(measurements) == ("Düsseldorf", 500, 25.0)
